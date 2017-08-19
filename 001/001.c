@@ -1,7 +1,22 @@
 #include<stdio.h>
 #include<stdlib.h>
+
 #define LIST_INT_SIZE 100
 #define MAXSIZE 128;
+
+#define init_stack_size   100
+#define incresement_size 10
+
+
+#ifndef     SElemType
+#define SElemType   unsigned int
+#endif
+
+typedef enum
+{
+	function_ok=0,
+	function_fail
+}progstatus;
 typedef struct Linkedlist{
 	int  data;
 	struct Linkedlist *next;
@@ -18,6 +33,51 @@ typedef struct
 	int listsize;
 }sqlist;
 
+
+typedef struct
+{
+	SElemType     *base;
+	SElemType     *top;
+	int stacksize;
+}sqstack;
+
+int statck_init(sqstack *S )
+{
+	S.base=(SElemType*)malloc(init_stack_size*sizeof(SElemType));
+	S.top=S.base;
+	S.stacksize=init_stack_size;
+	return function_ok;
+}
+
+int get_top(sqstack S,SElemType *e)
+{
+	if(S.top==S.base)
+		return function_fail;
+	*e=(S.top-1);
+	return function_ok;
+}
+
+int Push(sqstack *s,SElemType e)
+{
+	if(*s.top-*s.base>init_stack_size)
+		{
+			*s.base=(SElemType*)realloc(*s.base,(init_stack_size+incresement_size)*sizeof(SElemType));
+			if(!*s.base)
+				return function_fail;
+			*s.top=(*s.base+init_stack_size);
+			*s.stacksize=init_stack_size+incresement_size;
+		}
+	*s.top++=e;
+	
+}
+
+int Pop(sqstack *s,SElemType *e)
+{
+	if(s.top==s.base)
+		return function_fail;
+	*e=*--s.top;
+		return function_ok;
+}
 
 void un()
 

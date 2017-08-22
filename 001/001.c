@@ -11,7 +11,7 @@
 #ifndef     SElemType
 #define SElemType   unsigned int
 #endif
-
+int c=0;
 typedef enum
 {
 	function_ok=0,
@@ -43,9 +43,9 @@ typedef struct
 
 int statck_init(sqstack *S )
 {
-	S.base=(SElemType*)malloc(init_stack_size*sizeof(SElemType));
-	S.top=S.base;
-	S.stacksize=init_stack_size;
+	S->base=(SElemType*)malloc(init_stack_size*sizeof(SElemType));
+	S->top=S->base;
+	S->stacksize=init_stack_size;
 	return function_ok;
 }
 
@@ -53,33 +53,51 @@ int get_top(sqstack S,SElemType *e)
 {
 	if(S.top==S.base)
 		return function_fail;
-	*e=(S.top-1);
+	e=(S.top-1);
 	return function_ok;
 }
 
 int Push(sqstack *s,SElemType e)
 {
-	if(*s.top-*s.base>init_stack_size)
+	if(s->top-s->base>init_stack_size)
 		{
-			*s.base=(SElemType*)realloc(*s.base,(init_stack_size+incresement_size)*sizeof(SElemType));
-			if(!*s.base)
+			s->base=(SElemType*)realloc(s->base,(init_stack_size+incresement_size)*sizeof(SElemType));
+			if(!s->base)
 				return function_fail;
-			*s.top=(*s.base+init_stack_size);
-			*s.stacksize=init_stack_size+incresement_size;
+			s->top=(s->base+init_stack_size);
+			s->stacksize=init_stack_size+incresement_size;
 		}
-	*s.top++=e;
+	*(s->top++)=e;
 	
 }
+void move(char x,int n,char y)
+{
+	printf("%d.put %d dishes from %c to %c\n" ,++c,n,x,y);
+}
+void digui(int n,char x,char y, char z)
+{
+	int i=0;
+	if(n==1)
+		move(x,1,z);
+	else
+		{
 
+			digui(n-1, x,z,y);
+			move(x,n,z);
+
+			digui(n-1,y, x,z);
+		}
+		
+}
 int Pop(sqstack *s,SElemType *e)
 {
-	if(s.top==s.base)
+	if(s->top==s->base)
 		return function_fail;
-	*e=*--s.top;
+	*e=*(--s->top);
 		return function_ok;
 }
 
-void un()
+
 
 int locateEm_SL(SLinkList S,int e)
 {
@@ -91,6 +109,7 @@ int locateEm_SL(SLinkList S,int e)
 		}
 		return i;
 }
+
 
 void inint_SL(SLinkList *S)
 {
@@ -194,24 +213,28 @@ int Getdata_linked(node L,int n ,int *e)
 		return 1;
 }
 
-void sqlist_init(sqlist *L)
+/*void sqlist_init(sqlist *L)
 {
-		(*L).data=(int*)malloc(LIST_INT_SIZE*sizeof(int));
+		L->data=(int*)malloc(LIST_INT_SIZE*sizeof(int));
 		
-}
+}*/
 int main(void)
 {
 		node La;
 		int data;
-Linkedlist_init(&La,10);
+		char a,b,c;
+		a='a';
+		b='b';
+		c='c';
+//Linkedlist_init(&La,10);
 
-list_insert(La,5,13);
-Getdata_linked(La,5,&data);
+//list_insert(La,5,13);
+//Getdata_linked(La,5,&data);
 
-	printf("%d",data);
- list_del(La,5);
+//	printf("%d",data);
+// list_del(La,5);
 
-
+digui(3,a,b,c);
 
 
 	
